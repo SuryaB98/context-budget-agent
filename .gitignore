@@ -219,6 +219,34 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
-# Project timeline / notes
+# Project timeline / notes / planning
+timeline/
 timeline
+Planning/
+Planning
+
+# Model checkpoints, weights, and ML artifacts
+*.pt
+*.pth
+*.ckpt
+*.bin
+*.safetensors
+*.onnx
+*.h5
+*.pb
+
+# Experiment Tracking / Output Runs
+runs/*
+!runs/.gitkeep
+wandb/
+lightning_logs/
+*.log
+tensorboard/
+
+# IDE and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
 
