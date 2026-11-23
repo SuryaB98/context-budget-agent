@@ -4,7 +4,7 @@
   "features": {
     "ghcr.io/va-h/devcontainers-features/uv:1": {}
   },
-  "postCreateCommand": "pip install --upgrade pip && pip install transformers tokenizers openai pytest scipy numpy pandas matplotlib",
+  "postCreateCommand": "pip install --upgrade pip && pip install transformers tokenizers rank-bm25 jinja2 openai pytest scipy numpy pandas matplotlib",
   "customizations": {
     "vscode": {
       "extensions": [
