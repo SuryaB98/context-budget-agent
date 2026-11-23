@@ -1,0 +1,39 @@
+{
+  "benchmark": "sierra-research/tau2-bench",
+  "pinned_release": "v1.0.1",
+  "domain": "retail",
+  "budget_regime": "allocatable_S_plus_H_with_pinned_P",
+  "output_reserve": 512,
+  "vllm_max_model_len": 12288,
+  "rq1_primary": {
+    "budgets": [2048, 4096, 8192],
+    "schema_ratios": [0.75, 0.5, 0.25, null],
+    "distractor_counts": [0, 10, 23],
+    "distractor_source": "in_dist",
+    "policy_mode": "pinned",
+    "history_mode": "sliding_window",
+    "schema_mode": "select",
+    "seeds": [42, 43, 44]
+  },
+  "rq1_schema_compression_ablation": {
+    "budgets": [2048],
+    "schema_ratios": [0.25, 0.5],
+    "schema_mode": "compact_select",
+    "distractor_counts": [0, 23]
+  },
+  "rq1b_policy_retrieval": {
+    "budgets": [2048, 4096],
+    "policy_modes": ["pinned", "retrieved"],
+    "policy_top_k": 3
+  },
+  "rq4_prefix_cache_h4": {
+    "budgets": [2048, 4096],
+    "history_modes": ["sliding_window", "summarize_dropped"],
+    "prefix_caching": [true, false]
+  },
+  "milestone7_unseen_tools": {
+    "budgets": [2048, 4096],
+    "distractor_source": "unseen",
+    "num_distractors": 13
+  }
+}

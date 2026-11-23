@@ -15,8 +15,8 @@
 | **CBA-6** | Authoritative Token Accounting Script (`count_tokens.py`) | M2 | 🟢 Local CPU | 1.5h | ✅ **DONE** (`notes/retail_token_profile.json`) |
 | **CBA-7** | Literature Review & Research Gap Qualification (`paper_notes.md`) | Interim | 🟢 Local / Browser | 2.0h | 🟡 **DRAFT DONE — REVIEW & VERIFY** (`bae464e`) |
 | **CBA-8** | Audit $\tau^3$-bench `v1.0.1` Retail Tasks (Issue #384) & Freeze Train/Eval Split | M1 / M2 | 🟢 Local CPU | 1.0h | ✅ **DONE** (`configs/retail_task_split.json`) |
-| **CBA-9** | Implement Per-Component Context Budget Controller (`S`, `P`, `H` + Distractors) | M2 | 🟢 Local CPU | 3.0h | ⏭️ **NEXT UP (Do #1)** |
-| **CBA-10** | Implement 6 Deterministic Retail Policy Compliance Checkers (`R1`–`R6`) | M4 | 🟢 Local CPU | 3.0h | ⏭️ **TO DO (Do #3)** |
+| **CBA-9** | Implement Per-Component Context Budget Controller (`S`, `P`, `H` + Distractors) | M2 | 🟢 Local CPU | 3.0h | ✅ **DONE** (`src/budget_controller.py`, `17` unit tests) |
+| **CBA-10** | Implement 6 Deterministic Retail Policy Compliance Checkers (`R1`–`R6`) | M4 | 🟢 Local CPU | 3.0h | ⏭️ **NEXT UP (Do #1)** |
 | **CBA-11** | Compile & Submit Interim Report Document | Interim | 🟢 Local / Docs | 2.5h | ⏭️ **TO DO (Do #4)** |
 | **CBA-3** | Cloud GPU VM Provisioning (24 GB VRAM) & Driver Validation | M1 | 🔵 **GPU Window 1** | 1.0h | ⏳ Waiting for GPU Window 1 |
 | **CBA-4** | Deploy `Qwen3-1.7B` & `4B` with vLLM & Verify Hermes Tool Calling | M1 | 🔵 **GPU Window 1** | 1.0h | ⏳ Waiting for GPU Window 1 (Scripts Ready) |
@@ -68,7 +68,7 @@ Finish `CBA-8` $\to$ `CBA-9` $\to$ `CBA-10` $\to$ `CBA-11` one by one right now 
 ---
 
 ### [CBA-9] Implement Per-Component Context Budget Controller (`src/budget_controller.py`)
-- **Status:** ⏭️ **TO DO (#2)**
+- **Status:** ✅ **DONE** (`src/budget_controller.py`, `configs/sweep_grid.json`, `17/17` tests passing)
 - **Environment:** 🟢 Local CPU / GitHub Codespaces
 - **Proposal Milestone:** Milestone 2 (Python evaluation harness & per-component token budgeting)
 - **Description:**  
@@ -91,7 +91,7 @@ Finish `CBA-8` $\to$ `CBA-9` $\to$ `CBA-10` $\to$ `CBA-11` one by one right now 
 ---
 
 ### [CBA-10] Implement 6 Deterministic Retail Policy Compliance Checkers (`src/compliance_checkers.py`)
-- **Status:** ⏭️ **TO DO (#3)**
+- **Status:** ⏭️ **NEXT UP (#1)**
 - **Environment:** 🟢 Local CPU / GitHub Codespaces
 - **Proposal Milestone:** Milestone 4 (Deterministic Policy Compliance Engine)
 - **Description:**  
