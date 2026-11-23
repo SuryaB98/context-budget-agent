@@ -1,0 +1,871 @@
+[
+  {
+    "type": "function",
+    "function": {
+      "name": "book_reservation",
+      "description": "Book a reservation.",
+      "parameters": {
+        "$defs": {
+          "FlightInfo": {
+            "properties": {
+              "flight_number": {
+                "description": "Flight number, such as 'HAT001'.",
+                "title": "Flight Number",
+                "type": "string"
+              },
+              "date": {
+                "description": "The date for the flight in the format 'YYYY-MM-DD', such as '2024-05-01'.",
+                "title": "Date",
+                "type": "string"
+              }
+            },
+            "required": [
+              "flight_number",
+              "date"
+            ],
+            "title": "FlightInfo",
+            "type": "object"
+          },
+          "Passenger": {
+            "properties": {
+              "first_name": {
+                "description": "Passenger's first name",
+                "title": "First Name",
+                "type": "string"
+              },
+              "last_name": {
+                "description": "Passenger's last name",
+                "title": "Last Name",
+                "type": "string"
+              },
+              "dob": {
+                "description": "Date of birth in YYYY-MM-DD format",
+                "title": "Dob",
+                "type": "string"
+              }
+            },
+            "required": [
+              "first_name",
+              "last_name",
+              "dob"
+            ],
+            "title": "Passenger",
+            "type": "object"
+          },
+          "Payment": {
+            "properties": {
+              "payment_id": {
+                "description": "Unique identifier for the payment",
+                "title": "Payment Id",
+                "type": "string"
+              },
+              "amount": {
+                "description": "Payment amount in dollars",
+                "title": "Amount",
+                "type": "integer"
+              }
+            },
+            "required": [
+              "payment_id",
+              "amount"
+            ],
+            "title": "Payment",
+            "type": "object"
+          }
+        },
+        "properties": {
+          "user_id": {
+            "description": "The ID of the user to book the reservation such as 'sara_doe_496'`.",
+            "title": "User Id",
+            "type": "string"
+          },
+          "origin": {
+            "description": "The IATA code for the origin city such as 'SFO'.",
+            "title": "Origin",
+            "type": "string"
+          },
+          "destination": {
+            "description": "The IATA code for the destination city such as 'JFK'.",
+            "title": "Destination",
+            "type": "string"
+          },
+          "flight_type": {
+            "description": "The type of flight such as 'one_way' or 'round_trip'.",
+            "enum": [
+              "round_trip",
+              "one_way"
+            ],
+            "title": "Flight Type",
+            "type": "string"
+          },
+          "cabin": {
+            "description": "The cabin class such as 'basic_economy', 'economy', or 'business'.",
+            "enum": [
+              "business",
+              "economy",
+              "basic_economy"
+            ],
+            "title": "Cabin",
+            "type": "string"
+          },
+          "flights": {
+            "description": "An array of objects containing details about each piece of flight.",
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/FlightInfo"
+                },
+                {
+                  "additionalProperties": true,
+                  "type": "object"
+                }
+              ]
+            },
+            "title": "Flights",
+            "type": "array"
+          },
+          "passengers": {
+            "description": "An array of objects containing details about each passenger.",
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/Passenger"
+                },
+                {
+                  "additionalProperties": true,
+                  "type": "object"
+                }
+              ]
+            },
+            "title": "Passengers",
+            "type": "array"
+          },
+          "payment_methods": {
+            "description": "An array of objects containing details about each payment method.",
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/Payment"
+                },
+                {
+                  "additionalProperties": true,
+                  "type": "object"
+                }
+              ]
+            },
+            "title": "Payment Methods",
+            "type": "array"
+          },
+          "total_baggages": {
+            "description": "The total number of baggage items to book the reservation.",
+            "title": "Total Baggages",
+            "type": "integer"
+          },
+          "nonfree_baggages": {
+            "description": "The number of non-free baggage items to book the reservation.",
+            "title": "Nonfree Baggages",
+            "type": "integer"
+          },
+          "insurance": {
+            "description": "Whether the reservation has insurance.",
+            "enum": [
+              "yes",
+              "no"
+            ],
+            "title": "Insurance",
+            "type": "string"
+          }
+        },
+        "required": [
+          "user_id",
+          "origin",
+          "destination",
+          "flight_type",
+          "cabin",
+          "flights",
+          "passengers",
+          "payment_methods",
+          "total_baggages",
+          "nonfree_baggages",
+          "insurance"
+        ],
+        "title": "parameters",
+        "type": "object"
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "cancel_reservation",
+      "description": "Cancel the whole reservation.",
+      "parameters": {
+        "properties": {
+          "reservation_id": {
+            "description": "The reservation ID, such as 'ZFA04Y'.",
+            "title": "Reservation Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "reservation_id"
+        ],
+        "title": "parameters",
+        "type": "object"
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "get_reservation_details",
+      "description": "Get the details of a reservation.",
+      "parameters": {
+        "properties": {
+          "reservation_id": {
+            "description": "The reservation ID, such as '8JX2WO'.",
+            "title": "Reservation Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "reservation_id"
+        ],
+        "title": "parameters",
+        "type": "object"
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "list_all_airports",
+      "description": "Returns a list of all available airports.",
+      "parameters": {
+        "properties": {},
+        "title": "parameters",
+        "type": "object"
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "search_direct_flight",
+      "description": "Search for direct flights between two cities on a specific date.",
+      "parameters": {
+        "properties": {
+          "origin": {
+            "description": "The origin city airport in three letters, such as 'JFK'.",
+            "title": "Origin",
+            "type": "string"
+          },
+          "destination": {
+            "description": "The destination city airport in three letters, such as 'LAX'.",
+            "title": "Destination",
+            "type": "string"
+          },
+          "date": {
+            "description": "The date of the flight in the format 'YYYY-MM-DD', such as '2024-01-01'.",
+            "title": "Date",
+            "type": "string"
+          }
+        },
+        "required": [
+          "origin",
+          "destination",
+          "date"
+        ],
+        "title": "parameters",
+        "type": "object"
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "search_onestop_flight",
+      "description": "Search for one-stop flights between two cities on a specific date.",
+      "parameters": {
+        "properties": {
+          "origin": {
+            "description": "The origin city airport in three letters, such as 'JFK'.",
+            "title": "Origin",
+            "type": "string"
+          },
+          "destination": {
+            "description": "The destination city airport in three letters, such as 'LAX'.",
+            "title": "Destination",
+            "type": "string"
+          },
+          "date": {
+            "description": "The date of the flight in the format 'YYYY-MM-DD', such as '2024-05-01'.",
+            "title": "Date",
+            "type": "string"
+          }
+        },
+        "required": [
+          "origin",
+          "destination",
+          "date"
+        ],
+        "title": "parameters",
+        "type": "object"
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "send_certificate",
+      "description": "Send a certificate to a user. Be careful!",
+      "parameters": {
+        "properties": {
+          "user_id": {
+            "description": "The ID of the user to book the reservation, such as 'sara_doe_496'.",
+            "title": "User Id",
+            "type": "string"
+          },
+          "amount": {
+            "description": "The amount of the certificate to send.",
+            "title": "Amount",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "user_id",
+          "amount"
+        ],
+        "title": "parameters",
+        "type": "object"
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "update_reservation_baggages",
+      "description": "Update the baggage information of a reservation.",
+      "parameters": {
+        "properties": {
+          "reservation_id": {
+            "description": "The reservation ID, such as 'ZFA04Y'",
+            "title": "Reservation Id",
+            "type": "string"
+          },
+          "total_baggages": {
+            "description": "The updated total number of baggage items included in the reservation.",
+            "title": "Total Baggages",
+            "type": "integer"
+          },
+          "nonfree_baggages": {
+            "description": "The updated number of non-free baggage items included in the reservation.",
+            "title": "Nonfree Baggages",
+            "type": "integer"
+          },
+          "payment_id": {
+            "description": "The payment id stored in user profile, such as 'credit_card_7815826', 'gift_card_7815826', 'certificate_7815826'.",
+            "title": "Payment Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "reservation_id",
+          "total_baggages",
+          "nonfree_baggages",
+          "payment_id"
+        ],
+        "title": "parameters",
+        "type": "object"
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "update_reservation_flights",
+      "description": "Update the flight information of a reservation.",
+      "parameters": {
+        "$defs": {
+          "FlightInfo": {
+            "properties": {
+              "flight_number": {
+                "description": "Flight number, such as 'HAT001'.",
+                "title": "Flight Number",
+                "type": "string"
+              },
+              "date": {
+                "description": "The date for the flight in the format 'YYYY-MM-DD', such as '2024-05-01'.",
+                "title": "Date",
+                "type": "string"
+              }
+            },
+            "required": [
+              "flight_number",
+              "date"
+            ],
+            "title": "FlightInfo",
+            "type": "object"
+          }
+        },
+        "properties": {
+          "reservation_id": {
+            "description": "The reservation ID, such as 'ZFA04Y'.",
+            "title": "Reservation Id",
+            "type": "string"
+          },
+          "cabin": {
+            "description": "The cabin class of the reservation",
+            "enum": [
+              "business",
+              "economy",
+              "basic_economy"
+            ],
+            "title": "Cabin",
+            "type": "string"
+          },
+          "flights": {
+            "description": "An array of objects containing details about each piece of flight in the ENTIRE new reservation. Even if the a flight segment is not changed, it should still be included in the array.",
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/FlightInfo"
+                },
+                {
+                  "additionalProperties": true,
+                  "type": "object"
+                }
+              ]
+            },
+            "title": "Flights",
+            "type": "array"
+          },
+          "payment_id": {
+            "description": "The payment id stored in user profile, such as 'credit_card_7815826', 'gift_card_7815826', 'certificate_7815826'.",
+            "title": "Payment Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "reservation_id",
+          "cabin",
+          "flights",
+          "payment_id"
+        ],
+        "title": "parameters",
+        "type": "object"
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "update_reservation_passengers",
+      "description": "Update the passenger information of a reservation.",
+      "parameters": {
+        "$defs": {
+          "Passenger": {
+            "properties": {
+              "first_name": {
+                "description": "Passenger's first name",
+                "title": "First Name",
+                "type": "string"
+              },
+              "last_name": {
+                "description": "Passenger's last name",
+                "title": "Last Name",
+                "type": "string"
+              },
+              "dob": {
+                "description": "Date of birth in YYYY-MM-DD format",
+                "title": "Dob",
+                "type": "string"
+              }
+            },
+            "required": [
+              "first_name",
+              "last_name",
+              "dob"
+            ],
+            "title": "Passenger",
+            "type": "object"
+          }
+        },
+        "properties": {
+          "reservation_id": {
+            "description": "The reservation ID, such as 'ZFA04Y'.",
+            "title": "Reservation Id",
+            "type": "string"
+          },
+          "passengers": {
+            "description": "An array of objects containing details about each passenger.",
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/Passenger"
+                },
+                {
+                  "additionalProperties": true,
+                  "type": "object"
+                }
+              ]
+            },
+            "title": "Passengers",
+            "type": "array"
+          }
+        },
+        "required": [
+          "reservation_id",
+          "passengers"
+        ],
+        "title": "parameters",
+        "type": "object"
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "get_flight_status",
+      "description": "Get the status of a flight.",
+      "parameters": {
+        "properties": {
+          "flight_number": {
+            "description": "The flight number.",
+            "title": "Flight Number",
+            "type": "string"
+          },
+          "date": {
+            "description": "The date of the flight.",
+            "title": "Date",
+            "type": "string"
+          }
+        },
+        "required": [
+          "flight_number",
+          "date"
+        ],
+        "title": "parameters",
+        "type": "object"
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "get_customer_by_phone",
+      "description": "Finds a customer by their primary contact or line phone number.",
+      "parameters": {
+        "properties": {
+          "phone_number": {
+            "description": "The phone number to search for.",
+            "title": "Phone Number",
+            "type": "string"
+          }
+        },
+        "required": [
+          "phone_number"
+        ],
+        "title": "parameters",
+        "type": "object"
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "get_customer_by_id",
+      "description": "Retrieves a customer directly by their unique ID.",
+      "parameters": {
+        "properties": {
+          "customer_id": {
+            "description": "The unique identifier of the customer.",
+            "title": "Customer Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "customer_id"
+        ],
+        "title": "parameters",
+        "type": "object"
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "get_customer_by_name",
+      "description": "Searches for customers by name and DOB. May return multiple matches if names are similar,\n\nDOB helps disambiguate.",
+      "parameters": {
+        "properties": {
+          "full_name": {
+            "description": "The full name of the customer.",
+            "title": "Full Name",
+            "type": "string"
+          },
+          "dob": {
+            "description": "Date of birth for verification, in the format YYYY-MM-DD.",
+            "title": "Dob",
+            "type": "string"
+          }
+        },
+        "required": [
+          "full_name",
+          "dob"
+        ],
+        "title": "parameters",
+        "type": "object"
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "get_details_by_id",
+      "description": "Retrieves the details for a given ID.\n\nThe ID must be a valid ID for a Customer, Line, Device, Bill, or Plan.",
+      "parameters": {
+        "properties": {
+          "id": {
+            "description": "The ID of the object to retrieve.",
+            "title": "Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "title": "parameters",
+        "type": "object"
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "suspend_line",
+      "description": "Suspends a specific line (max 6 months).\n\nChecks: Line status must be Active.\nLogic: Sets line status to Suspended, records suspension_start_date.",
+      "parameters": {
+        "properties": {
+          "customer_id": {
+            "description": "ID of the customer who owns the line.",
+            "title": "Customer Id",
+            "type": "string"
+          },
+          "line_id": {
+            "description": "ID of the line to suspend.",
+            "title": "Line Id",
+            "type": "string"
+          },
+          "reason": {
+            "description": "Reason for suspension.",
+            "title": "Reason",
+            "type": "string"
+          }
+        },
+        "required": [
+          "customer_id",
+          "line_id",
+          "reason"
+        ],
+        "title": "parameters",
+        "type": "object"
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "resume_line",
+      "description": "Resumes a suspended line.\n\nChecks: Line status must be Suspended or Pending Activation.\nLogic: Sets line status to Active, clears suspension_start_date.",
+      "parameters": {
+        "properties": {
+          "customer_id": {
+            "description": "ID of the customer who owns the line.",
+            "title": "Customer Id",
+            "type": "string"
+          },
+          "line_id": {
+            "description": "ID of the line to resume.",
+            "title": "Line Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "customer_id",
+          "line_id"
+        ],
+        "title": "parameters",
+        "type": "object"
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "get_bills_for_customer",
+      "description": "Retrieves a list of the customer's bills, most recent first.",
+      "parameters": {
+        "properties": {
+          "customer_id": {
+            "description": "ID of the customer.",
+            "title": "Customer Id",
+            "type": "string"
+          },
+          "limit": {
+            "default": 12,
+            "description": "Maximum number of bills to return.",
+            "title": "Limit",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "customer_id"
+        ],
+        "title": "parameters",
+        "type": "object"
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "send_payment_request",
+      "description": "Sends a payment request to the customer for a specific bill.\n\nChecks:\n    - Customer exists\n    - Bill exists and belongs to the customer\n    - No other bills are already awaiting payment for this customer\nLogic: Sets bill status to AWAITING_PAYMENT and notifies customer.\nWarning: This method does not check if the bill is already PAID.\nAlways check the bill status before calling this method.",
+      "parameters": {
+        "properties": {
+          "customer_id": {
+            "description": "ID of the customer who owns the bill.",
+            "title": "Customer Id",
+            "type": "string"
+          },
+          "bill_id": {
+            "description": "ID of the bill to send payment request for.",
+            "title": "Bill Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "customer_id",
+          "bill_id"
+        ],
+        "title": "parameters",
+        "type": "object"
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "get_data_usage",
+      "description": "Retrieves current billing cycle data usage for a line, including data\n\nrefueling amount, data limit, and cycle end date.",
+      "parameters": {
+        "properties": {
+          "customer_id": {
+            "description": "ID of the customer who owns the line.",
+            "title": "Customer Id",
+            "type": "string"
+          },
+          "line_id": {
+            "description": "ID of the line to check usage for.",
+            "title": "Line Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "customer_id",
+          "line_id"
+        ],
+        "title": "parameters",
+        "type": "object"
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "enable_roaming",
+      "description": "Enables international roaming on a line.",
+      "parameters": {
+        "properties": {
+          "customer_id": {
+            "description": "ID of the customer who owns the line.",
+            "title": "Customer Id",
+            "type": "string"
+          },
+          "line_id": {
+            "description": "ID of the line to enable roaming for.",
+            "title": "Line Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "customer_id",
+          "line_id"
+        ],
+        "title": "parameters",
+        "type": "object"
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "disable_roaming",
+      "description": "Disables international roaming on a line.",
+      "parameters": {
+        "properties": {
+          "customer_id": {
+            "description": "ID of the customer who owns the line.",
+            "title": "Customer Id",
+            "type": "string"
+          },
+          "line_id": {
+            "description": "ID of the line to disable roaming for.",
+            "title": "Line Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "customer_id",
+          "line_id"
+        ],
+        "title": "parameters",
+        "type": "object"
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "refuel_data",
+      "description": "Refuels data for a specific line, adding to the customer's bill.\n\nChecks: Line status must be Active, Customer owns the line.\nLogic: Adds data to the line and charges customer based on the plan's refueling rate.",
+      "parameters": {
+        "properties": {
+          "customer_id": {
+            "description": "ID of the customer who owns the line.",
+            "title": "Customer Id",
+            "type": "string"
+          },
+          "line_id": {
+            "description": "ID of the line to refuel data for.",
+            "title": "Line Id",
+            "type": "string"
+          },
+          "gb_amount": {
+            "description": "Amount of data to add in gigabytes.",
+            "title": "Gb Amount",
+            "type": "number"
+          }
+        },
+        "required": [
+          "customer_id",
+          "line_id",
+          "gb_amount"
+        ],
+        "title": "parameters",
+        "type": "object"
+      }
+    }
+  }
+]

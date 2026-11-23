@@ -1,0 +1,57 @@
+{
+  "in_dist_total": 23,
+  "in_dist_by_domain": {
+    "airline": 11,
+    "telecom": 12
+  },
+  "in_dist_tool_names": {
+    "airline": [
+      "book_reservation",
+      "cancel_reservation",
+      "get_reservation_details",
+      "list_all_airports",
+      "search_direct_flight",
+      "search_onestop_flight",
+      "send_certificate",
+      "update_reservation_baggages",
+      "update_reservation_flights",
+      "update_reservation_passengers",
+      "get_flight_status"
+    ],
+    "telecom": [
+      "get_customer_by_phone",
+      "get_customer_by_id",
+      "get_customer_by_name",
+      "get_details_by_id",
+      "suspend_line",
+      "resume_line",
+      "get_bills_for_customer",
+      "send_payment_request",
+      "get_data_usage",
+      "enable_roaming",
+      "disable_roaming",
+      "refuel_data"
+    ]
+  },
+  "unseen_total": 13,
+  "unseen_by_domain": {
+    "banking_knowledge": 13
+  },
+  "unseen_tool_names": {
+    "banking_knowledge": [
+      "get_current_time",
+      "get_user_information_by_id",
+      "get_user_information_by_name",
+      "get_user_information_by_email",
+      "change_user_email",
+      "get_referrals_by_user",
+      "get_credit_card_transactions_by_user",
+      "get_credit_card_accounts_by_user",
+      "log_verification",
+      "give_discoverable_user_tool",
+      "unlock_discoverable_agent_tool",
+      "call_discoverable_agent_tool",
+      "list_discoverable_agent_tools"
+    ]
+  }
+}

@@ -12,10 +12,10 @@
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **CBA-1** | Workspace Directory Structure & Git Ignore Verification | M1 | 🟢 Local / Browser | 0.5h | ✅ **DONE** (`1ad3f2b`) |
 | **CBA-2** | Pin $\tau^3$-bench Retail `v1.0.1` & Benchmark Selection Memo | M1 | 🟢 Local / Browser | 1.5h | ✅ **DONE** (`63bcae9`) |
-| **CBA-6** | Authoritative Token Accounting Script (`count_tokens.py`) | M2 | 🟢 Local CPU | 1.5h | 🟡 **CODE DONE — RUN ON RETAIL DATA** (`bae464e`) |
+| **CBA-6** | Authoritative Token Accounting Script (`count_tokens.py`) | M2 | 🟢 Local CPU | 1.5h | ✅ **DONE** (`notes/retail_token_profile.json`) |
 | **CBA-7** | Literature Review & Research Gap Qualification (`paper_notes.md`) | Interim | 🟢 Local / Browser | 2.0h | 🟡 **DRAFT DONE — REVIEW & VERIFY** (`bae464e`) |
-| **CBA-8** | Audit $\tau^3$-bench `v1.0.1` Retail Tasks (Issue #384) & Freeze Train/Eval Split | M1 / M2 | 🟢 Local CPU | 1.0h | ⏭️ **NEXT UP (Do #1)** |
-| **CBA-9** | Implement Per-Component Context Budget Controller (`S`, `P`, `H` + Distractors) | M2 | 🟢 Local CPU | 3.0h | ⏭️ **TO DO (Do #2)** |
+| **CBA-8** | Audit $\tau^3$-bench `v1.0.1` Retail Tasks (Issue #384) & Freeze Train/Eval Split | M1 / M2 | 🟢 Local CPU | 1.0h | ✅ **DONE** (`configs/retail_task_split.json`) |
+| **CBA-9** | Implement Per-Component Context Budget Controller (`S`, `P`, `H` + Distractors) | M2 | 🟢 Local CPU | 3.0h | ⏭️ **NEXT UP (Do #1)** |
 | **CBA-10** | Implement 6 Deterministic Retail Policy Compliance Checkers (`R1`–`R6`) | M4 | 🟢 Local CPU | 3.0h | ⏭️ **TO DO (Do #3)** |
 | **CBA-11** | Compile & Submit Interim Report Document | Interim | 🟢 Local / Docs | 2.5h | ⏭️ **TO DO (Do #4)** |
 | **CBA-3** | Cloud GPU VM Provisioning (24 GB VRAM) & Driver Validation | M1 | 🔵 **GPU Window 1** | 1.0h | ⏳ Waiting for GPU Window 1 |
@@ -38,7 +38,7 @@ Finish `CBA-8` $\to$ `CBA-9` $\to$ `CBA-10` $\to$ `CBA-11` one by one right now 
 ---
 
 ### [CBA-8] Audit $\tau^3$-bench `v1.0.1` Retail Tasks (Issue #384) & Freeze Train/Eval Split
-- **Status:** ⏭️ **READY TO EXECUTE (#1)**
+- **Status:** ✅ **DONE** (`50` Eval / `58` Train leak-free split frozen; `6` vacuous tasks excluded; `16` retail + `23` in-dist + `13` unseen schemas extracted)
 - **Environment:** 🟢 Local CPU / GitHub Codespaces / Google Colab
 - **Proposal Milestone:** Milestone 1 & Milestone 2
 - **Description:**  

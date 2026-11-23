@@ -1,0 +1,44 @@
+{
+  "domain": "retail",
+  "total_tools": 16,
+  "tool_types": {
+    "calculate": "generic",
+    "cancel_pending_order": "write",
+    "exchange_delivered_order_items": "write",
+    "find_user_id_by_name_zip": "read",
+    "find_user_id_by_email": "read",
+    "get_order_details": "read",
+    "get_product_details": "read",
+    "get_item_details": "read",
+    "get_user_details": "read",
+    "list_all_product_types": "read",
+    "modify_pending_order_address": "write",
+    "modify_pending_order_items": "write",
+    "modify_pending_order_payment": "write",
+    "modify_user_address": "write",
+    "return_delivered_order_items": "write",
+    "transfer_to_human_agents": "generic"
+  },
+  "write_tools": [
+    "cancel_pending_order",
+    "exchange_delivered_order_items",
+    "modify_pending_order_address",
+    "modify_pending_order_items",
+    "modify_pending_order_payment",
+    "modify_user_address",
+    "return_delivered_order_items"
+  ],
+  "read_tools": [
+    "find_user_id_by_email",
+    "find_user_id_by_name_zip",
+    "get_item_details",
+    "get_order_details",
+    "get_product_details",
+    "get_user_details",
+    "list_all_product_types"
+  ],
+  "generic_tools": [
+    "calculate",
+    "transfer_to_human_agents"
+  ]
+}

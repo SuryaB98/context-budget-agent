@@ -3,9 +3,9 @@
 # [CBA-4] Launch vLLM OpenAI-Compatible Server for Qwen3-1.7B / Qwen3-4B
 # ==============================================================================
 # Usage:
-#   bash setup/run_vllm.sh [MODEL_ID] [PORT] [VLLM_TAG]
+#   bash setup/run_vllm.sh [MODEL_ID] [PORT] [VLLM_TAG] [MAX_MODEL_LEN]
 # Example:
-#   bash setup/run_vllm.sh Qwen/Qwen3-1.7B 8000 v0.8.5
+#   bash setup/run_vllm.sh Qwen/Qwen3-1.7B 8000 v0.8.5 12288
 # ==============================================================================
 
 set -euo pipefail
@@ -13,6 +13,7 @@ set -euo pipefail
 MODEL_ID="${1:-Qwen/Qwen3-1.7B}"
 PORT="${2:-8000}"
 VLLM_TAG="${3:-v0.8.5}"
+MAX_MODEL_LEN="${4:-12288}"
 CONTAINER_NAME="vllm-cba-server"
 
 echo "============================================================"
@@ -20,7 +21,7 @@ echo " Launching vLLM Server"
 echo " Model          : ${MODEL_ID}"
 echo " Port           : ${PORT}"
 echo " Docker Image   : vllm/vllm-openai:${VLLM_TAG}"
-echo " Max Model Len  : 8192 (Supports 2k / 4k / 8k budgets)"
+echo " Max Model Len  : ${MAX_MODEL_LEN} (Supports P + 2k/4k/8k B_alloc + reserve)"
 echo " Prefix Caching : Enabled (--enable-prefix-caching)"
 echo " Tool Parser    : hermes (--enable-auto-tool-choice)"
 echo "============================================================"
@@ -43,7 +44,7 @@ docker run -d \
   --enable-auto-tool-choice \
   --tool-call-parser hermes \
   --enable-prefix-caching \
-  --max-model-len 8192 \
+  --max-model-len "${MAX_MODEL_LEN}" \
   --dtype bfloat16 \
   --gpu-memory-utilization 0.90
 
