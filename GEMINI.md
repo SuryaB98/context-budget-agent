@@ -68,9 +68,9 @@ Locked Design Decisions:
 
 ---
 
-## 5. Current Status & Immediate Next Queue (as of 2026-11-23)
+## 5. Current Status & Immediate Next Queue (as of 2026-11-25)
 
-- **Completed (Block 1 Engineering Gate Passed — `34` offline `pytest` unit tests passing):**
+- **Completed (Block 1 Engineering + Pre-GPU Harness Gate Passed — `40` offline `pytest` unit tests passing):**
   - `CBA-1` (`1ad3f2b`): Directory layout, `.gitignore`, baseline `README.md`.
   - `CBA-2` (`63bcae9`, amended `49928b1`): Benchmark pinning memo (`notes/benchmark_pinning.md`).
   - `CBA-4` scripts (`bae464e`, updated `49928b1`): `setup/run_vllm.sh` (`--max-model-len 12288`), `scripts/test_tool_call.py`.
@@ -78,14 +78,14 @@ Locked Design Decisions:
   - `CBA-7` draft (`bae464e`): 6-paper literature matrix & gap (`notes/paper_notes.md`; final review during `CBA-11`).
   - `CBA-9` (`0200033`): `src/budget_controller.py` (`ContextBudgetController` with exact Qwen3 BPE budgets, BM25 schema/policy selection, atomic history trimming, H4 summarization), `configs/sweep_grid.json`, `tests/test_budget_controller.py` (`17` unit tests).
   - `CBA-10` (`42d4141`): `src/compliance_checkers.py` (`8` deterministic rules `R1`–`R8` + calibration metrics), `tests/test_compliance_checkers.py` (`12` unit tests).
+  - **`eval_runner` + `serving_profiler` + RunPod Launcher (Pre-GPU Harness Ready):** `src/eval_runner.py` (streaming OpenAI/vLLM client for true TTFT, `ContextBudgetController` turn integration with Turn-0 greeting stripping, lazy `tau2-bench@v1.0.1` `Orchestrator` adapter, Decision D3 dual-metric grading with disk-cached `NLAssertionJudgeCache`, `RetailComplianceEngine` audit, `sweep_grid.json` preset expansion, `--resume` crash recovery, `episodes.jsonl`/`results.csv`/`summary.json`), `src/serving_profiler.py` (Prometheus `/metrics` scraper & episode prefix-cache delta profiler), `setup/run_vllm_runpod.sh` (RunPod-native `vllm serve` launcher supporting prefix-cache ON/OFF & LoRA), `tests/test_eval_runner.py` (`6` unit tests).
 - **Immediate Next Queue:**
-  1. **`CBA-11` (Next Up #1 — Codespaces Free CPU):** Review `notes/paper_notes.md`, compile & submit Interim Report using `PORTABLE_WORK_PACKET.md` §4 + verified `CBA-8/9/10` artifacts.
-  2. **`src/eval_runner.py` (Codespaces Free CPU — Prep Before GPU Rental):** Build end-to-end evaluation harness wiring `ContextBudgetController`, `tau2-bench@v1.0.1`, OpenAI-compatible vLLM endpoint, and `compliance_checkers` so paid RunPod GPU hours run pure inference.
-  3. **GPU Window 1 (`CBA-3` -> `CBA-4` -> `CBA-5` — RunPod + 40 GB Network Volume):** Provision `/workspace` volume, run 45-min 4-model floor screen (`Qwen3-1.7B / 4B / 8B / 14B` on A100 80 GB) + 50-task baseline pilot (`RTX 4090` / `A100`).
-  4. **Local Calibration (`CBA-12` — Codespaces / Mac):** Hand-label 30–50 pilot transcripts and verify `>= 90%` checker agreement.
-  5. **GPU Window 2 (`CBA-13`, `CBA-14` — RunPod):** Core `2k/4k/8k` sweep (`configs/sweep_grid.json`), RQ1b policy retrieval, H4 prefix-cache ON/OFF probe.
-  6. **GPU Window 3 (`CBA-15`, `CBA-16`, `CBA-17` — RunPod):** Verifier-filtered train-only SFT dataset, `2x2` LoRA ablations, Milestone 7 budget recovery / unseen tools (`13` `banking_knowledge` tools) / language retention evals.
-  7. **Final Wrap-up (`CBA-18` — Mac / CPU):** 10k paired bootstrap CIs, 5-class failure taxonomy, Matplotlib figures, `v1.0.0` release tag, final dissertation & viva deck.
+  1. **`CBA-11` (Codespaces Free CPU / Docs):** Review `notes/paper_notes.md`, compile & submit Interim Report reconciling `PORTABLE_WORK_PACKET.md` §4 with verified `CBA-8/9/10` artifacts (D1–D3, 16 tools, 50/58 split, 8-rule compliance engine).
+  2. **GPU Window 1 (`CBA-3` -> `CBA-4` -> `CBA-5` — RunPod + 40 GB Network Volume):** Provision `/workspace` volume, launch `setup/run_vllm_runpod.sh`, verify Hermes tool calling (`scripts/test_tool_call.py`), run 45-min 4-model floor screen (`Qwen3-1.7B / 4B / 8B / 14B` on A100 80 GB) + 50-task baseline pilot (`python -m src.eval_runner --grid baseline_pilot ...`).
+  3. **Local Calibration (`CBA-12` — Codespaces / Mac):** Hand-label 30–50 pilot transcripts and verify `>= 90%` checker agreement.
+  4. **GPU Window 2 (`CBA-13`, `CBA-14` — RunPod):** Core `2k/4k/8k` sweep (`--grid rq1_primary`), RQ1b policy retrieval (`--grid rq1b_policy_retrieval`), H4 prefix-cache ON/OFF probe (`--grid rq4_prefix_cache_h4`).
+  5. **GPU Window 3 (`CBA-15`, `CBA-16`, `CBA-17` — RunPod):** Verifier-filtered train-only SFT dataset, `2x2` LoRA ablations, Milestone 7 budget recovery / unseen tools (`--grid milestone7_unseen_tools`) / language retention evals.
+  6. **Final Wrap-up (`CBA-18` — Mac / CPU):** 10k paired bootstrap CIs, 5-class failure taxonomy, Matplotlib figures, `v1.0.0` release tag, final dissertation & viva deck.
 
 ---
 
@@ -95,6 +95,8 @@ Locked Design Decisions:
 | :--- | :--- |
 | `src/budget_controller.py` | Per-component BPE budget controller (`P`, `S <= B_S`, `H <= B_H`, BM25 selection, atomic trimming) |
 | `src/compliance_checkers.py` | 8-rule deterministic retail policy compliance engine (`R1`–`R8`) & `CBA-12` calibration helpers |
+| `src/eval_runner.py` | End-to-end evaluation harness (`BudgetedTurnExecutor`, streaming vLLM client, lazy `tau2` adapter, Decision D3 dual grader + `NLAssertionJudgeCache`, `--resume`, sweep presets) |
+| `src/serving_profiler.py` | vLLM Prometheus `/metrics` scraper (`gpu_prefix_cache_hit_rate` delta/gauge) & streaming TTFT/ITL profiler |
 | `configs/retail_task_split.json` | Frozen leak-free `50` Eval / `58` Train split (`6` vacuous excluded, `0` persona overlap) |
 | `configs/sweep_grid.json` | Experiment matrix for `RQ1`, schema compression, `RQ1b`, `RQ4` cache probe, and unseen tools |
 | `configs/retail_tools_openai.json` | Frozen OpenAI schemas for all `16` retail tools (`3,382` templated Qwen3 tokens) |
@@ -107,8 +109,9 @@ Locked Design Decisions:
 | `notes/paper_notes.md` | 6-paper literature synthesis matrix & 3-part Research Gap statement (`CBA-7`) |
 | `PORTABLE_WORK_PACKET.md` | Self-contained project brief, Interim Report blueprint, and 8-week schedule |
 | `.devcontainer/devcontainer.json` | Codespaces Python `3.12` + `uv` + all offline dependencies (`rank-bm25`, `jinja2`, etc.) |
-| `setup/run_vllm.sh` | CUDA Docker launcher for vLLM OpenAI-compatible server (use `vllm serve` directly on RunPod) |
-| `scripts/` & `tests/` | `extract_retail_artifacts.py`, `audit_retail_tasks.py`, `count_tokens.py`, `test_tool_call.py`, `34` unit tests |
+| `setup/run_vllm.sh` | CUDA Docker launcher for vLLM OpenAI-compatible server (bare-metal/VM hosts) |
+| `setup/run_vllm_runpod.sh` | RunPod-native direct `vllm serve` launcher (prefix-cache ON/OFF, LoRA modules, `/workspace/hf_cache`) |
+| `scripts/` & `tests/` | `extract_retail_artifacts.py`, `audit_retail_tasks.py`, `count_tokens.py`, `test_tool_call.py`, `40` unit tests |
 
 ---
 

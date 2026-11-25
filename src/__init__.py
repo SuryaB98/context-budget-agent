@@ -17,6 +17,13 @@ from src.compliance_checkers import (
     load_hand_labels_csv,
     normalize_trajectory,
 )
+from src.serving_profiler import (
+    EpisodeServingMetrics,
+    TurnLatencyRecord,
+    VLLMMetricsScraper,
+    parse_prometheus_metrics,
+    summarize_episode_serving,
+)
 
 __all__ = [
     "AllocationResult",
@@ -26,10 +33,15 @@ __all__ = [
     "DatasetComplianceSummary",
     "DistractorPool",
     "EpisodeComplianceReport",
+    "EpisodeServingMetrics",
     "RetailComplianceEngine",
     "RuleResult",
+    "TurnLatencyRecord",
+    "VLLMMetricsScraper",
     "compute_checker_agreement",
     "count_chat_tokens",
     "load_hand_labels_csv",
     "normalize_trajectory",
+    "parse_prometheus_metrics",
+    "summarize_episode_serving",
 ]
