@@ -68,20 +68,21 @@ Locked Design Decisions:
 
 ---
 
-## 5. Current Status & Immediate Next Queue (as of 2026-11-25)
+## 5. Current Status & Immediate Next Queue (as of 2026-11-26)
 
-- **Completed (Block 1 Engineering + Pre-GPU Harness Gate Passed — `40` offline `pytest` unit tests passing):**
+- **Completed (Block 1 Engineering + Pre-GPU Harness + Interim Report Draft Ready — `40` offline `pytest` unit tests passing):**
   - `CBA-1` (`1ad3f2b`): Directory layout, `.gitignore`, baseline `README.md`.
   - `CBA-2` (`63bcae9`, amended `49928b1`): Benchmark pinning memo (`notes/benchmark_pinning.md`).
   - `CBA-4` scripts (`bae464e`, updated `49928b1`): `setup/run_vllm.sh` (`--max-model-len 12288`), `scripts/test_tool_call.py`.
   - `CBA-6` & `CBA-8` (`49928b1`): `scripts/extract_retail_artifacts.py`, fixed `scripts/count_tokens.py`, upgraded `scripts/audit_retail_tasks.py`, `configs/retail_task_split.json` (`50` Eval / `58` Train, `0` persona overlap, `6` vacuous excluded), `configs/retail_tools_openai.json` (`16` tools), `configs/distractor_tools_in_dist.json` (`23` tools), `configs/distractor_tools_unseen.json` (`13` tools), `notes/retail_token_profile.json`, `tests/test_cba8_artifacts.py`.
-  - `CBA-7` draft (`bae464e`): 6-paper literature matrix & gap (`notes/paper_notes.md`; final review during `CBA-11`).
+  - `CBA-7` (verified `2026-11-26`): 6-paper literature matrix & gap (`notes/paper_notes.md`, all 6 arXiv IDs, titles, authors, benchmarks & empirical numbers verified).
   - `CBA-9` (`0200033`): `src/budget_controller.py` (`ContextBudgetController` with exact Qwen3 BPE budgets, BM25 schema/policy selection, atomic history trimming, H4 summarization), `configs/sweep_grid.json`, `tests/test_budget_controller.py` (`17` unit tests).
   - `CBA-10` (`42d4141`): `src/compliance_checkers.py` (`8` deterministic rules `R1`–`R8` + calibration metrics), `tests/test_compliance_checkers.py` (`12` unit tests).
-  - **`eval_runner` + `serving_profiler` + RunPod Launcher (Pre-GPU Harness Ready):** `src/eval_runner.py` (streaming OpenAI/vLLM client for true TTFT, `ContextBudgetController` turn integration with Turn-0 greeting stripping, lazy `tau2-bench@v1.0.1` `Orchestrator` adapter, Decision D3 dual-metric grading with disk-cached `NLAssertionJudgeCache`, `RetailComplianceEngine` audit, `sweep_grid.json` preset expansion, `--resume` crash recovery, `episodes.jsonl`/`results.csv`/`summary.json`), `src/serving_profiler.py` (Prometheus `/metrics` scraper & episode prefix-cache delta profiler), `setup/run_vllm_runpod.sh` (RunPod-native `vllm serve` launcher supporting prefix-cache ON/OFF & LoRA), `tests/test_eval_runner.py` (`6` unit tests).
+  - **`eval_runner` + `serving_profiler` + RunPod Launcher (`9b33279`):** `src/eval_runner.py`, `src/serving_profiler.py`, `setup/run_vllm_runpod.sh`, `tests/test_eval_runner.py` (`6` unit tests).
+  - **`CBA-11` Interim Report Package + GPU Window 1 Runbook:** `notes/Interim_Report_21CSA699A_Surya_B.md`, `notes/Interim_Report_21CSA699A_Surya_B.docx`, `notes/figures/system_architecture.png`, `scripts/generate_interim_docx.py`, and `notes/GPU_WINDOW_1_RUNBOOK.md`.
 - **Immediate Next Queue:**
-  1. **`CBA-11` (Codespaces Free CPU / Docs):** Review `notes/paper_notes.md`, compile & submit Interim Report reconciling `PORTABLE_WORK_PACKET.md` §4 with verified `CBA-8/9/10` artifacts (D1–D3, 16 tools, 50/58 split, 8-rule compliance engine).
-  2. **GPU Window 1 (`CBA-3` -> `CBA-4` -> `CBA-5` — RunPod + 40 GB Network Volume):** Provision `/workspace` volume, launch `setup/run_vllm_runpod.sh`, verify Hermes tool calling (`scripts/test_tool_call.py`), run 45-min 4-model floor screen (`Qwen3-1.7B / 4B / 8B / 14B` on A100 80 GB) + 50-task baseline pilot (`python -m src.eval_runner --grid baseline_pilot ...`).
+  1. **Portal Submission (`CBA-11`):** Review/sign `notes/Interim_Report_21CSA699A_Surya_B.docx`, export to PDF, and submit on Amrita Online portal.
+  2. **GPU Window 1 (`CBA-3` -> `CBA-4` -> `CBA-5` — RunPod + 40 GB Network Volume):** Follow `notes/GPU_WINDOW_1_RUNBOOK.md` to provision `/workspace` volume, launch `setup/run_vllm_runpod.sh`, verify Hermes tool calling (`scripts/test_tool_call.py`), run 45-min 4-model floor screen (`Qwen3-1.7B / 4B / 8B / 14B` on A100 80 GB) + 50-task baseline pilot (`python -m src.eval_runner --grid baseline_pilot ...`).
   3. **Local Calibration (`CBA-12` — Codespaces / Mac):** Hand-label 30–50 pilot transcripts and verify `>= 90%` checker agreement.
   4. **GPU Window 2 (`CBA-13`, `CBA-14` — RunPod):** Core `2k/4k/8k` sweep (`--grid rq1_primary`), RQ1b policy retrieval (`--grid rq1b_policy_retrieval`), H4 prefix-cache ON/OFF probe (`--grid rq4_prefix_cache_h4`).
   5. **GPU Window 3 (`CBA-15`, `CBA-16`, `CBA-17` — RunPod):** Verifier-filtered train-only SFT dataset, `2x2` LoRA ablations, Milestone 7 budget recovery / unseen tools (`--grid milestone7_unseen_tools`) / language retention evals.
@@ -111,6 +112,7 @@ Locked Design Decisions:
 | `.devcontainer/devcontainer.json` | Codespaces Python `3.12` + `uv` + all offline dependencies (`rank-bm25`, `jinja2`, etc.) |
 | `setup/run_vllm.sh` | CUDA Docker launcher for vLLM OpenAI-compatible server (bare-metal/VM hosts) |
 | `setup/run_vllm_runpod.sh` | RunPod-native direct `vllm serve` launcher (prefix-cache ON/OFF, LoRA modules, `/workspace/hf_cache`) |
+| `notes/GPU_WINDOW_1_RUNBOOK.md` | Copy-pasteable RunPod GPU Window 1 runbook (`CBA-3` → `CBA-4` → `CBA-5` + pod teardown) |
 | `scripts/` & `tests/` | `extract_retail_artifacts.py`, `audit_retail_tasks.py`, `count_tokens.py`, `test_tool_call.py`, `40` unit tests |
 
 ---
